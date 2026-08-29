@@ -1,7 +1,7 @@
 const CONFIG = {
     titulo: "Concentraciones químicas",
 
-    fechaLiberacion: "2026-09-03T09:20:00-04:00",
+    fechaLiberacion: "2026-08-29T13:50:00-04:00",
 
     guiaActual: {
         ver: "pdf/actual/guia-alumno.pdf",
