@@ -11,8 +11,19 @@ const CONFIG = {
     solucionario: {
         ver: "https://cphiztezgibdcyzomvzw.supabase.co/functions/v1/liberar-solucionario",
         descargar: "https://cphiztezgibdcyzomvzw.supabase.co/functions/v1/liberar-solucionario"
+    },
+
+    estadisticas: {
+        endpoint: "https://cphiztezgibdcyzomvzw.supabase.co/functions/v1/registrar-evento",
+        guia: "concentraciones-quimicas"
     }
 };
+
+
+/* =========================================================
+   ELEMENTOS DE LA PÁGINA
+   ========================================================= */
+
 const tituloGuia = document.getElementById("titulo-guia");
 const textoLiberacion = document.getElementById("texto-liberacion");
 const cuentaRegresiva = document.getElementById("cuenta-regresiva");
@@ -26,6 +37,11 @@ const descargarGuia = document.getElementById("descargar-guia");
 const verSolucionario = document.getElementById("ver-solucionario");
 const descargarSolucionario = document.getElementById("descargar-solucionario");
 
+
+/* =========================================================
+   CONFIGURACIÓN DE ENLACES
+   ========================================================= */
+
 tituloGuia.textContent = CONFIG.titulo;
 
 verGuia.href = CONFIG.guiaActual.ver;
@@ -33,6 +49,11 @@ descargarGuia.href = CONFIG.guiaActual.descargar;
 
 verSolucionario.href = CONFIG.solucionario.ver;
 descargarSolucionario.href = CONFIG.solucionario.descargar;
+
+
+/* =========================================================
+   CUENTA REGRESIVA
+   ========================================================= */
 
 function formatearFecha(fecha) {
     return new Intl.DateTimeFormat("es-CL", {
@@ -93,6 +114,180 @@ function actualizarLiberacion() {
     cuentaRegresiva.textContent = partes.join(" ");
 }
 
+
+/* =========================================================
+   IDENTIFICADOR ANÓNIMO DE SESIÓN
+   ========================================================= */
+
+function obtenerSesion() {
+    let sesion = sessionStorage.getItem("sesion_guias");
+
+    if (!sesion) {
+        if (crypto.randomUUID) {
+            sesion = crypto.randomUUID();
+        } else {
+            sesion =
+                Date.now().toString(36) +
+                "-" +
+                Math.random().toString(36).slice(2);
+        }
+
+        sessionStorage.setItem("sesion_guias", sesion);
+    }
+
+    return sesion;
+}
+
+const SESION = obtenerSesion();
+
+
+/* =========================================================
+   REGISTRO DE ESTADÍSTICAS
+   ========================================================= */
+
+async function registrarEvento(
+    evento,
+    recurso,
+    duracionSegundos = null
+) {
+    const datos = {
+        evento: evento,
+        recurso: recurso,
+        guia: CONFIG.estadisticas.guia,
+        sesion: SESION,
+        duracion_segundos: duracionSegundos
+    };
+
+    try {
+        await fetch(CONFIG.estadisticas.endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(datos),
+            credentials: "omit",
+            keepalive: true
+        });
+    } catch (error) {
+        console.warn(
+            "No se pudo registrar la estadística:",
+            error
+        );
+    }
+}
+
+
+/* =========================================================
+   APERTURA DE LA PÁGINA
+   ========================================================= */
+
+registrarEvento(
+    "pagina_abierta",
+    "sitio"
+);
+
+
+/* =========================================================
+   CLICS EN GUÍA Y SOLUCIONARIO
+   ========================================================= */
+
+verGuia.addEventListener("click", () => {
+    registrarEvento(
+        "guia_abierta",
+        "guia-alumno"
+    );
+});
+
+descargarGuia.addEventListener("click", () => {
+    registrarEvento(
+        "guia_descargada",
+        "guia-alumno"
+    );
+});
+
+verSolucionario.addEventListener("click", () => {
+    registrarEvento(
+        "solucionario_abierto",
+        "solucionario"
+    );
+});
+
+descargarSolucionario.addEventListener("click", () => {
+    registrarEvento(
+        "solucionario_descargado",
+        "solucionario"
+    );
+});
+
+
+/* =========================================================
+   TIEMPO ACTIVO
+   ========================================================= */
+
+let segundosActivosPendientes = 0;
+
+setInterval(() => {
+    if (
+        document.visibilityState === "visible" &&
+        document.hasFocus()
+    ) {
+        segundosActivosPendientes += 1;
+    }
+}, 1000);
+
+
+/*
+Envía los segundos acumulados cada 30 segundos.
+Solo registra tiempo con la pestaña visible y activa.
+*/
+
+setInterval(() => {
+    if (segundosActivosPendientes <= 0) {
+        return;
+    }
+
+    const segundosAEnviar = segundosActivosPendientes;
+
+    segundosActivosPendientes = 0;
+
+    registrarEvento(
+        "tiempo_activo",
+        "sitio",
+        segundosAEnviar
+    );
+}, 30000);
+
+
+/*
+Si el usuario cambia de pestaña o minimiza,
+intentamos enviar el tiempo pendiente.
+*/
+
+document.addEventListener("visibilitychange", () => {
+    if (
+        document.visibilityState === "hidden" &&
+        segundosActivosPendientes > 0
+    ) {
+        const segundosAEnviar = segundosActivosPendientes;
+
+        segundosActivosPendientes = 0;
+
+        registrarEvento(
+            "tiempo_activo",
+            "sitio",
+            segundosAEnviar
+        );
+    }
+});
+
+
+/* =========================================================
+   INICIO
+   ========================================================= */
+
 actualizarLiberacion();
 
-setInterval(actualizarLiberacion, 1000);
+setInterval(
+    actualizarLiberacion,
+    1000
+);
