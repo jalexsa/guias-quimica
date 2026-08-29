@@ -1,7 +1,7 @@
 const CONFIG = {
     titulo: "Concentraciones químicas",
 
-    fechaLiberacion: "2026-08-29T13:50:00-04:00",
+    fechaLiberacion: "2026-08-31T15:30:00-04:00",
 
     guiaActual: {
         ver: "pdf/actual/guia-alumno.pdf",
@@ -9,11 +9,10 @@ const CONFIG = {
     },
 
     solucionario: {
-        ver: "pdf/actual/guia-soluciones.pdf",
-        descargar: "pdf/actual/guia-soluciones.pdf"
+        ver: "https://cphiztezgibdcyzomvzw.supabase.co/functions/v1/liberar-solucionario",
+        descargar: "https://cphiztezgibdcyzomvzw.supabase.co/functions/v1/liberar-solucionario"
     }
 };
-
 const tituloGuia = document.getElementById("titulo-guia");
 const textoLiberacion = document.getElementById("texto-liberacion");
 const cuentaRegresiva = document.getElementById("cuenta-regresiva");
