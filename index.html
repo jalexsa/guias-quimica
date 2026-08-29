@@ -1,1 +1,308 @@
-<h1>Gu¡as de Qu¡mica</h1> 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Guías de Química</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <main class="contenedor">
+
+        <header class="encabezado">
+
+            <img
+                src="assets/logo-liceo.png"
+                alt="Logo del liceo"
+                class="logo"
+            >
+
+            <div class="encabezado-texto">
+                <h1>Guías de Química</h1>
+
+                <p>
+                    Material de apoyo y solucionarios
+                </p>
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             GUÍA ACTUAL
+             ===================================================== -->
+
+        <section class="tarjeta">
+
+            <span class="etiqueta">
+                Guía actual
+            </span>
+
+            <h2 id="titulo-guia">
+                Concentraciones químicas
+            </h2>
+
+            <div class="separador"></div>
+
+            <p>
+                Puedes consultar o descargar la guía utilizada
+                actualmente en clases.
+            </p>
+
+            <div class="botones">
+
+                <a
+                    id="ver-guia"
+                    class="boton"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Ver guía
+                </a>
+
+                <a
+                    id="descargar-guia"
+                    class="boton secundario"
+                    href="#"
+                    download
+                >
+                    Descargar PDF
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SOLUCIONARIO
+             ===================================================== -->
+
+        <section class="tarjeta">
+
+            <span class="etiqueta">
+                Solucionario
+            </span>
+
+            <h2>
+                Respuestas y desarrollo
+            </h2>
+
+            <div class="separador"></div>
+
+            <p>
+                El solucionario será liberado automáticamente
+                después de la hora establecida.
+            </p>
+
+            <div class="estado">
+
+                <div id="texto-liberacion">
+                    Disponible próximamente
+                </div>
+
+                <div
+                    id="cuenta-regresiva"
+                    class="cuenta-regresiva"
+                >
+                    Calculando...
+                </div>
+
+            </div>
+
+
+            <div
+                id="botones-bloqueados"
+                class="botones"
+            >
+
+                <button
+                    type="button"
+                    class="boton bloqueado"
+                    disabled
+                >
+                    Ver soluciones
+                </button>
+
+                <button
+                    type="button"
+                    class="boton bloqueado"
+                    disabled
+                >
+                    Descargar solucionario
+                </button>
+
+            </div>
+
+
+            <div
+                id="botones-solucionario"
+                class="botones oculto"
+            >
+
+                <a
+                    id="ver-solucionario"
+                    class="boton"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Ver soluciones
+                </a>
+
+                <a
+                    id="descargar-solucionario"
+                    class="boton secundario"
+                    href="#"
+                    download
+                >
+                    Descargar solucionario
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             GUÍAS ANTERIORES
+             ===================================================== -->
+
+        <section class="tarjeta">
+
+            <span class="etiqueta">
+                Archivo
+            </span>
+
+            <h2>
+                Guías anteriores
+            </h2>
+
+            <div class="separador"></div>
+
+            <p class="pequeno">
+                Aquí podrás volver a consultar materiales trabajados
+                anteriormente.
+            </p>
+
+
+            <div class="lista-guias">
+
+
+                <article class="guia-anterior">
+
+                    <h3>
+                        Estequiometría
+                    </h3>
+
+                    <p class="pequeno">
+                        Mol, masa molar y relaciones estequiométricas.
+                    </p>
+
+                    <div class="botones">
+
+                        <a
+                            class="boton secundario"
+                            href="#"
+                        >
+                            Ver guía
+                        </a>
+
+                        <a
+                            class="boton secundario"
+                            href="#"
+                        >
+                            Ver soluciones
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <article class="guia-anterior">
+
+                    <h3>
+                        Reactivo limitante
+                    </h3>
+
+                    <p class="pequeno">
+                        Reactivo limitante y reactivo en exceso.
+                    </p>
+
+                    <div class="botones">
+
+                        <a
+                            class="boton secundario"
+                            href="#"
+                        >
+                            Ver guía
+                        </a>
+
+                        <a
+                            class="boton secundario"
+                            href="#"
+                        >
+                            Ver soluciones
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <article class="guia-anterior">
+
+                    <h3>
+                        Fórmula empírica y molecular
+                    </h3>
+
+                    <p class="pequeno">
+                        Composición porcentual y determinación
+                        de fórmulas químicas.
+                    </p>
+
+                    <div class="botones">
+
+                        <a
+                            class="boton secundario"
+                            href="#"
+                        >
+                            Ver guía
+                        </a>
+
+                        <a
+                            class="boton secundario"
+                            href="#"
+                        >
+                            Ver soluciones
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+            </div>
+
+        </section>
+
+
+        <footer>
+
+            Material educativo de apoyo · Departamento de Ciencias
+
+        </footer>
+
+    </main>
+
+
+    <script src="js/app.js"></script>
+
+</body>
+</html>
